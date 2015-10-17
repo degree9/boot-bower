@@ -2,9 +2,10 @@
   :source-paths #{"src"}
   :dependencies '[[boot/core        "2.3.0"]
                   [adzerk/bootlaces "0.1.12"]
-                  [me.raynes/conch  "0.8.0"]])
+                  [org.clojars.hozumi/clj-commons-exec "1.2.0"]])
 
-(require '[adzerk.bootlaces :refer :all])
+(require '[adzerk.bootlaces :refer :all]
+         '[degree9.boot-bower :refer :all])
 
 (def +version+ "0.1.0")
 
