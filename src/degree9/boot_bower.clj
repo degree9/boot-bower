@@ -5,34 +5,34 @@
             [boot.util :as util]
             [clojure.java.io :as io]
             [clj-commons-exec :as exec]
-            [boot.task.built-in :as tasks]))
+            [boot.task.built-in :as tasks]
+            [cheshire.core :refer :all]))
 
 (boot/deftask bower
   "boot-clj wrapper for bower"
   [i install   FOO=BAR {kw str} "Dependency map."
    d directory VAL     str      "Directory to install components (defaults to 'bower_components' in target)"
    g ignore    VAL     #{kw}    "List of packages to ignore."]
-  (let [deps    (or (:install   *opts*) nil)
-        dir     (or (:directory *opts*) nil)
-        ignore  (or (:ignore    *opts*) nil)
+  (let [deps    (or (:install   *opts*) "")
+        dir     (or (:directory *opts*) "/bower_components")
+        ignore  (or (:ignore    *opts*) "")
         tmp     (boot/tmp-dir!)
         tmpbwr  (boot/tmp-dir!)
-        bwrjson (boot/json-generate {:name ::tmp :dependencies deps})
-        bwrrc   (boot/json-generate {:directory dir :ignoredDependencies ignore})
+        bwrjson (generate-string {:name ::tmp :dependencies deps} {:pretty true})
+        bwrrc   (generate-string {:directory dir :ignoredDependencies ignore} {:pretty true})
         jsonf   (io/file tmp "bower.json")
         bwrrcf  (io/file tmp ".bowerrc")]
+       (println bwrjson bwrrc)
     (comp
      (boot/with-pre-wrap fileset
-      (doto jsonf  io/make-parents (spit bwrjson))
-      (doto bwrrcf io/make-parents (spit bwrrc))
-      (let [local-bower (io/as-file "./node_modules/bower/bin/bower")
+       (doto jsonf  io/make-parents (spit bwrjson))
+       (doto bwrrcf io/make-parents (spit bwrrc))
+       (let [local-bower (io/as-file "./node_modules/bower/bin/bower")
             bwrcmd      (if (.exists local-bower) (.getPath local-bower) "bower")
-            cmdresult   @(exec/sh [bwrcmd "install"] {:dir (.getPath tmp)}
-                                  )
+            cmdresult   @(exec/sh [bwrcmd "install"] {:dir (.getPath tmp)})
             exitcode    (:exit cmdresult)
             errormsg    (:err cmdresult)]
-        (assert (= 0 exitcode) errormsg)
-        (-> fileset (boot/add-resource tmp) boot/commit!)))
-     (tasks/sift :to-source #{ #"(?i)(/.*)*bower.json$" })
-     (tasks/sift :to-source #{ #"(?i)(/.*)*.bowerrc$" }))
-    (util/info "Bower run successful...\n")))
+         (assert (= 0 exitcode) errormsg)
+         (util/info "Bower run successful...\n")
+         (-> fileset (boot/add-resource tmp) boot/commit!)))
+     )))
