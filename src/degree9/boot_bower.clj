@@ -29,7 +29,7 @@
        (doto bwrrcf io/make-parents (spit bwrrc))
        (let [local-bower (io/as-file "./node_modules/bower/bin/bower")
             bwrcmd      (if (.exists local-bower) (.getPath local-bower) "bower")
-            cmdresult   @(exec/sh [bwrcmd "install"] {:dir (.getPath tmp)})
+            cmdresult   @(exec/sh [bwrcmd "install" "--allow-root"] {:dir (.getPath tmp)})
             exitcode    (:exit cmdresult)
             errormsg    (:err cmdresult)]
          (assert (= 0 exitcode) errormsg)

@@ -8,7 +8,7 @@
 (require '[adzerk.bootlaces :refer :all]
          '[degree9.boot-bower :refer :all])
 
-(def +version+ "0.2.1")
+(def +version+ "0.2.2")
 
 (bootlaces! +version+)
 
