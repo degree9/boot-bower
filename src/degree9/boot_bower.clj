@@ -22,7 +22,6 @@
         bwrrc   (generate-string {:directory dir :ignoredDependencies ignore} {:pretty true})
         jsonf   (io/file tmp "bower.json")
         bwrrcf  (io/file tmp ".bowerrc")]
-       (println bwrjson bwrrc)
     (comp
      (boot/with-pre-wrap fileset
        (doto jsonf  io/make-parents (spit bwrjson))
