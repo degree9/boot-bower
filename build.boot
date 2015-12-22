@@ -13,7 +13,6 @@
 
 (task-options!
   pom {:project 'degree9/boot-bower
-       :version +version+
        :description "boot-clj task for wrapping bower"
        :url         "https://github.com/degree9/boot-bower"
        :scm         {:url "https://github.com/degree9/boot-bower"}})
