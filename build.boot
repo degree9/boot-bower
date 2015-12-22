@@ -18,7 +18,7 @@
        :scm         {:url "https://github.com/degree9/boot-bower"}})
 
 (deftask dev
-  "Build boot-semver for development."
+  "Build boot-bower for development."
   []
   (comp
    (watch)
@@ -29,7 +29,7 @@
    (build-jar)))
 
 (deftask deploy
-  "Build boot-semver and deploy to clojars."
+  "Build boot-bower and deploy to clojars."
   []
   (comp
    (version :minor 'inc
