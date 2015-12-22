@@ -1,8 +1,10 @@
 (set-env!
- :dependencies  '[[org.clojure/clojure     "1.7.0"]
-                  [boot/core               "2.5.1"]
-                  [adzerk/bootlaces        "0.1.13"]
-                  [grimradical/clj-semver  "0.3.0"]]
+ :dependencies  '[[org.clojure/clojure                 "1.7.0"]
+                  [boot/core                           "2.5.1"]
+                  [adzerk/bootlaces                    "0.1.13"]
+                  [org.clojars.hozumi/clj-commons-exec "1.2.0"]
+                  [cheshire                            "5.5.0"]
+                  [degree9/boot-semver                 "1.2.0"]]
  :resource-paths   #{"src"})
 
 (require
