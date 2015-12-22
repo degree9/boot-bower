@@ -1,16 +1,13 @@
 (set-env!
-  :source-paths #{"src"}
-  :dependencies '[[boot/core        "2.3.0"]
-                  [adzerk/bootlaces "0.1.12"]
-                  [org.clojars.hozumi/clj-commons-exec "1.2.0"]
-                  [cheshire         "5.5.0"]])
+ :dependencies  '[[org.clojure/clojure     "1.7.0"]
+                  [boot/core               "2.5.1"]
+                  [adzerk/bootlaces        "0.1.13"]
+                  [grimradical/clj-semver  "0.3.0"]]
+ :resource-paths   #{"src"})
 
-(require '[adzerk.bootlaces :refer :all]
-         '[degree9.boot-bower :refer :all])
-
-(def +version+ "0.2.3")
-
-(bootlaces! +version+)
+(require
+ '[adzerk.bootlaces :refer :all]
+ '[boot-semver.core :refer :all])
 
 (task-options!
   pom {:project 'degree9/boot-bower
@@ -20,9 +17,21 @@
        :scm         {:url "https://github.com/degree9/boot-bower"}})
 
 (deftask dev
-  "Build boot-bower local development."
+  "Build boot-semver for development."
   []
   (comp
    (watch)
+   (version :no-update true
+            :minor 'inc
+            :patch 'zero
+            :pre-release 'snapshot)
+   (build-jar)))
+
+(deftask deploy
+  "Build boot-semver and deploy to clojars."
+  []
+  (comp
+   (version :minor 'inc
+            :patch 'zero)
    (build-jar)
-   (speak)))
+   (push-release)))
