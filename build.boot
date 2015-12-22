@@ -26,6 +26,7 @@
             :minor 'inc
             :patch 'zero
             :pre-release 'snapshot)
+   (target  :dir #{"target"})
    (build-jar)))
 
 (deftask deploy
@@ -34,5 +35,6 @@
   (comp
    (version :minor 'inc
             :patch 'zero)
+   (target  :dir #{"target"})
    (build-jar)
    (push-release)))
