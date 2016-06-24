@@ -27,7 +27,7 @@
         local-bower  (io/as-file "./node_modules/bower/bin/bower")
         global-bower (io/as-file "/usr/local/bin/bower")
         bwrcmd       (cond (.exists global-bower) (.getPath global-bower)
-                           (.exists local-bower) (.getPath local-bower)
+                           (.exists local-bower) (.getAbsolutePath local-bower)
                            :else "bower")]
     (boot/with-pre-wrap fileset
        (doto jsonf  io/make-parents (spit bwrjson))
