@@ -1,12 +1,12 @@
 (ns degree9.boot-bower
-  {:boot/export-tasks true}
   (:require [boot.core :as boot]
+            [boot.task.built-in :as tasks]
             [boot.tmpdir :as tmpd]
             [boot.util :as util]
-            [degree9.boot-exec :as exec]
+            [cheshire.core :refer :all]
             [clojure.java.io :as io]
-            [boot.task.built-in :as tasks]
-            [cheshire.core :refer :all]))
+            [degree9.boot-exec :as exec]
+            [degree9.boot-npm :as npm]))
 
 (defn deep-merge
   "Like merge, but merges maps recursively."
@@ -59,4 +59,4 @@
           (if bwrrcfs
             (spit-file (-> bwrrcfs boot/tmp-file .getName) tmp (maps->str (file->json bwrrcfs) bwrrc))
             (spit-file bwrrcf tmp (maps->str bwrrc)))))
-      (exec/exec :process "bower" :arguments args :directory tmp-path :local "node_modules/bower/bin"))))
+      (npm/exec :module "bower" :arguments args :cache-key cache-key))))
