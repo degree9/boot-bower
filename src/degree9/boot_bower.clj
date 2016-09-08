@@ -45,7 +45,7 @@
         cache-key (:cache-key   *opts* ::cache)
         tmp       (boot/cache-dir! cache-key)
         tmp-path  (.getAbsolutePath tmp)
-        bwrjson   {:name "temp" :dependencies deps :resolutions res}
+        bwrjson   {:name ::tmp :dependencies deps :resolutions res}
         bwrrc     {:directory dir :ignoredDependencies ignore}
         args      ["install" "--allow-root"]
         args      (if (boot/get-env :offline?) (conj args "--offline") args)]
